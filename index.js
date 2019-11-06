@@ -69,6 +69,7 @@ const keyArr = [
 
 let pressed = false;
 let en = false;
+let prevButtonClick;
 
 
 const Keyboard = {
@@ -267,7 +268,7 @@ document.onkeydown = (event) => {
             }
            
         });
-       
+       prevButtonClick = event.code;
     }     
     
 backspace = () => {
@@ -324,7 +325,7 @@ capsLock = () => {
 lang = () => {
     en = !en;
 
-    if (en) {
+    if (en && (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft')) {
         keyArr.forEach((element, index) => {
             document.getElementsByClassName('keyboard__key')[index].innerHTML = element[2];
         });
