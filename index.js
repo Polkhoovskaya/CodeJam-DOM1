@@ -114,13 +114,6 @@ const Keyboard = {
         keyArr.forEach (key => {
             let button = document.createElement('button');
 
-            // if (key[3]) {
-                let buttonRight = document.createElement('span');
-                buttonRight.classList.add('red');
-                buttonRight.innerHTML = 'dvdbcfbdf';
-                button.appendChild(buttonRight);
-            // }
-
             const insertLineBreak = ["Backspace", "Del", "Enter", "."].indexOf(key[1]) !== -1;
             button.classList.add('keyboard__key');
             button.innerHTML = key[1];
@@ -132,7 +125,7 @@ const Keyboard = {
                         backspace();
                         Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
                     });
-                    button.classList.add('keyboard__key_big');
+                    button.classList.add('keyboard__key_long');
                     break;
                 }
                 case 'Delete': {
@@ -140,7 +133,7 @@ const Keyboard = {
                         del();
                         Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
                     });
-                    button.classList.add('keyboard__key_big');
+                    button.classList.add('keyboard__key_long');
                     break;
                 }
                 case 'Tab': {
@@ -148,7 +141,7 @@ const Keyboard = {
                         tab();
                         Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
                     });
-                    button.classList.add('keyboard__key_big');
+                    button.classList.add('keyboard__key_long');
                     break;
                 }
                 case 'Space': {
@@ -164,7 +157,7 @@ const Keyboard = {
                         enter();
                         Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
                     });
-                    button.classList.add('keyboard__key_big');
+                    button.classList.add('keyboard__key_long');
                     break;
                 }
                 case 'CapsLock': {
@@ -172,40 +165,23 @@ const Keyboard = {
                         capsLock();
                         Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
                     });
-                    button.classList.add('keyboard__key_big');
+                    button.classList.add('keyboard__key_long');
                     break;
                 }
-                // case 'ControlLeft':
-                // case '/^Alt/':
-                // case '/^Meta/':
-                // case '/^Shift/': {
-                //     button.addEventListener('click', () => {
-                //         console.log(` key[0] presed`);
-                //     });
-                //     break;
-                // }
-                default: {
-                    let f =(key) => {
-                        let buttonPresed =[
-                            key.search(/^Control/), 
-                            key.search(/^Alt/),
-                            key.search(/^Shift/),
-                            key.search(/^Meta/)
-                        ]
-    
-                        buttonPresed.forEach((element) => {
-                            if (element != -1) {
-                                button.addEventListener('click', () => {
-                                    console.log(`${key} presed`);
-                                });
-                                return true;
-                            } else return false;
-                        });
-                    }
-                    console.log(f(key[0]));
-                    if (f(key[0])) {
-                        alert('done');
-                    } else if (en == true) {
+                case 'ControlLeft':
+                case 'ControlRight':
+                case 'AltLeft':
+                case 'AltRight':
+                case 'ShiftRight':
+                case 'ShiftLeft':
+                case 'MetaLeft': {
+                    button.addEventListener('click', () => {
+                        console.log(` ${key[0]} presed`);
+                    });
+                    break;
+                }
+                default: {     
+                   if (en == true) {
                         button.addEventListener('click', () => {
                             Keyboard.elements.text.push(key[2]);
                             Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
@@ -234,7 +210,6 @@ const Keyboard = {
 }
 
 document.onkeydown = (event) => {
-console.log(event.keyCode);
 
     if (event.keyCode >= 48 &&  event.keyCode <= 57 ||
         event.keyCode >= 65 &&  event.keyCode <= 69 ||
