@@ -117,8 +117,16 @@ const Keyboard = {
 
             const insertLineBreak = ["Backspace", "Del", "Enter", "."].indexOf(key[1]) !== -1;
             button.classList.add('keyboard__key');
-            button.innerHTML = key[1];
 
+            if(key[4] && key[4] !== '') {
+                button.innerHTML = button.innerHTML + `<p class="additionalSubols_en">${key[4]}</p>`;
+            }
+
+            button.innerHTML = button.innerHTML + key[1];
+
+            if(key[3] && key[3] !== '') {
+                button.innerHTML = button.innerHTML + `<p class="additionalSubols_ru">${key[3]}</p>`;
+            }
             
             switch (key[0]) {
                 case 'Backspace': {
@@ -327,11 +335,25 @@ lang = () => {
 
     if (en && (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft')) {
         keyArr.forEach((element, index) => {
-            document.getElementsByClassName('keyboard__key')[index].innerHTML = element[2];
+            if(element[4] && element[4] !== ''){
+                document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[2]}`;
+            } else {
+                document.getElementsByClassName('keyboard__key')[index].innerHTML = element[2];
+            }
+            if(element[3] && element[3] !== ''){
+                document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
+            }
         });
-    } else {
+    } else if (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft') {
         keyArr.forEach((element, index) => {
-            document.getElementsByClassName('keyboard__key')[index].innerHTML = element[1];
+            if(element[4] && element[4] !== ''){
+                document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[1]}`;
+            } else {
+                document.getElementsByClassName('keyboard__key')[index].innerHTML = element[1];
+            }
+            if(element[3] && element[3] !== ''){
+                document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
+            }
         });
     }
 }

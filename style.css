@@ -102,3 +102,16 @@
     text-transform: uppercase;
 }
 
+.additionalSubols_en {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding-right: 7%;
+}
+
+.additionalSubols_ru {
+    color: rgba(10, 104, 245, 0.945);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding-left: 7%;
+}
