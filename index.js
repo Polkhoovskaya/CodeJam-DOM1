@@ -68,7 +68,7 @@ const keyArr = [
 ];  
 
 let pressed = false;
-let en = false;
+let isEn = false;
 let prevButtonClick;
 
 
@@ -191,7 +191,7 @@ const Keyboard = {
                     break;
                 }
                 default: {     
-                   if (en == true) {
+                   if (isEn == true) {
                         button.addEventListener('click', () => {
                             Keyboard.elements.text.push(key[2]);
                             Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
@@ -332,9 +332,9 @@ capsLock = () => {
 }
 
 lang = () => {
-    en = !en;
+    isEn = !isEn;
 
-    if (en && (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft')) {
+    if (isEn && (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft')) {
         keyArr.forEach((element, index) => {
             if(element[4] && element[4] !== ''){
                 document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[2]}`;
