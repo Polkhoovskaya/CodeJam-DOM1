@@ -131,6 +131,7 @@ const Keyboard = {
                 button.innerHTML = button.innerHTML + `<p class="additionalSubols_ru">${key[3]}</p>`;
             }
             
+
             switch (key[0]) {
                 case 'Backspace': {
                     button.addEventListener('click', () => {
@@ -187,9 +188,6 @@ const Keyboard = {
                 case 'ShiftRight':
                 case 'ShiftLeft':
                 case 'MetaLeft': {
-                    button.addEventListener('click', () => {
-                        console.log(` ${key[0]} presed`);
-                    });
                     break;
                 }
                 default: {     
