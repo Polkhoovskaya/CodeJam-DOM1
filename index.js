@@ -111,14 +111,14 @@ const Keyboard = {
         this.createKeysContainer();
         this.addToDOM();
     },
-    
+
     createButtons() {
-        const fragment = document.createDocumentFragment();
+        let fragment = document.createDocumentFragment();
 
         keyArr.forEach (key => {
             let button = document.createElement('button');
 
-            const insertLineBreak = ["Backspace", "Del", "Enter", "."].indexOf(key[1]) !== -1;
+            let insertLineBreak = ["Backspace", "Del", "Enter", "."].indexOf(key[1]) !== -1;
             button.classList.add('keyboard__key');
 
             if(key[4] && key[4] !== '') {
