@@ -191,7 +191,7 @@ const Keyboard = {
                     break;
                 }
                 default: {     
-                   if (isEn == true) {
+                   if (isEn === true) {
                         button.addEventListener('click', () => {
                             Keyboard.elements.text.push(key[2]);
                             Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
@@ -226,7 +226,7 @@ document.onkeydown = (event) => {
         event.keyCode >= 70 &&  event.keyCode <= 90 ||
         event.keyCode >= 186 &&  event.keyCode <= 192 ||
         event.keyCode >= 219 &&  event.keyCode <= 222 ||
-        event.keyCode == 226) {
+        event.keyCode === 226) {
             Keyboard.elements.text.push(event.key); 
     } else {
             switch (event.keyCode) {
@@ -267,7 +267,7 @@ document.onkeydown = (event) => {
     Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
         
         keyArr.forEach((element, index) => {
-            if (event.code == element[0]) {
+            if (event.code === element[0]) {
                 document.getElementsByClassName('keyboard__key')[index].classList.add('keyboard__key2');
 
                 time = () => {
@@ -310,7 +310,7 @@ capsLock = () => {
 
             const mark = ["Backspace", "Del", "Enter", "Tab", "CapsLock", "Shift", "Ctrl", "Win", "Alt", "Space"].indexOf(element[1]) !== -1;
 
-            if (element[1] =='CapsLock') {
+            if (element[1] ==='CapsLock') {
                 document.getElementsByClassName('keyboard__key')[index].classList.add('keyboard__key3');
             }
 
@@ -322,7 +322,7 @@ capsLock = () => {
     } else {
         keyArr.forEach((element, index) => {
 
-            if (element[1] =='CapsLock') {
+            if (element[1] ==='CapsLock') {
                 document.getElementsByClassName('keyboard__key')[index].classList.remove('keyboard__key3');
             }
 
@@ -334,7 +334,7 @@ capsLock = () => {
 lang = () => {
     isEn = !isEn;
 
-    if (isEn && (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft')) {
+    if (isEn && (prevButtonClick === 'ShiftLeft' || prevButtonClick === 'ControlLeft')) {
         keyArr.forEach((element, index) => {
             if(element[4] && element[4] !== ''){
                 document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[2]}`;
@@ -345,7 +345,7 @@ lang = () => {
                 document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
             }
         });
-    } else if (prevButtonClick == 'ShiftLeft' || prevButtonClick == 'ControlLeft') {
+    } else if (prevButtonClick === 'ShiftLeft' || prevButtonClick === 'ControlLeft') {
         keyArr.forEach((element, index) => {
             if(element[4] && element[4] !== ''){
                 document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[1]}`;
