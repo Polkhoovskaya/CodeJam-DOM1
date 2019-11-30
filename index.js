@@ -71,47 +71,45 @@ let pressed = false;
 let isEn = false;
 let prevButtonClick;
 
+class Keyboard {
+    constructor() {
+        this.textarea = null;
+        this.keyboard_wrapper = null;
+        this.keysContainer = null;
+        this.keys = [];
+        this.text = [];
+    }
 
-const Keyboard = {
-    elements: {
-        textarea: null,
-        keyboard_wrapper: null,
-        keysContainer: null,
-        keys: [],
-        text: []
-    },
-
-    createTextArea() {
-        this.elements.textarea = document.createElement('textarea');
-        this.elements.textarea.classList.add('textarea');
-        this.elements.textarea.innerHTML = this.elements.text.join('');
-    },
-    createKeyboardWrapper() {
-        this.elements.keyboard_wrapper = document.createElement('div');
-        this.elements.keyboard_wrapper.classList.add('keyboard_wrapper');    
-    },
-    createKeysContainer() {
-        this.elements.keysContainer = document.createElement('div');
-        this.elements.keysContainer.classList.add('keyboard__keys');
-        this.elements.keysContainer.appendChild(this.createButtons());
-    },
-    addToDOM() {
+    _createTextArea() {
+        this.textarea = document.createElement('textarea');
+        this.textarea.classList.add('textarea');
+        this.textarea.innerHTML = this.text.join('');
+    }
+    _createKeyboardWrapper() {
+        this.keyboard_wrapper = document.createElement('div');
+        this.keyboard_wrapper.classList.add('keyboard_wrapper');    
+    }
+    _createKeysContainer() {
+        this.keysContainer = document.createElement('div');
+        this.keysContainer.classList.add('keyboard__keys');
+        this.keysContainer.appendChild(this.createButtons());
+    }
+    _addToDOM() {
         let main = document.createElement('main');
         main.classList.add('main');
 
-        main.appendChild(this.elements.textarea);
-        this.elements.keyboard_wrapper.appendChild(this.elements.keysContainer);
-        main.appendChild(this.elements.keyboard_wrapper);
+        main.appendChild(this.textarea);
+        this.keyboard_wrapper.appendChild(this.keysContainer);
+        main.appendChild(this.keyboard_wrapper);
 
         document.body.appendChild(main);
-    },
+    }
     createKeyboard() {
-        this.createTextArea();
-        this.createKeyboardWrapper();
-        this.createKeysContainer();
-        this.addToDOM();
-    },
-
+        this._createTextArea();
+        this._createKeyboardWrapper();
+        this._createKeysContainer();
+        this._addToDOM();
+    }
     createButtons() {
         let fragment = document.createDocumentFragment();
 
@@ -136,7 +134,7 @@ const Keyboard = {
                 case 'Backspace': {
                     button.addEventListener('click', () => {
                         backspace();
-                        Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                        this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
                     break;
@@ -144,7 +142,7 @@ const Keyboard = {
                 case 'Delete': {
                     button.addEventListener('click', () => {
                         del();
-                        Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                        this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
                     break;
@@ -152,7 +150,7 @@ const Keyboard = {
                 case 'Tab': {
                     button.addEventListener('click', () => {
                         tab();
-                        Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                        this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
                     break;
@@ -160,7 +158,7 @@ const Keyboard = {
                 case 'Space': {
                     button.addEventListener('click', () => {
                         space();
-                         Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                         this.textarea.value = this.text.join(''); 
                      });
                      button.classList.add('keyboard__key_space');
                      break;
@@ -168,7 +166,7 @@ const Keyboard = {
                 case 'Enter': {
                     button.addEventListener('click', () => {
                         enter();
-                        Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                        this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
                     break;
@@ -176,7 +174,7 @@ const Keyboard = {
                 case 'CapsLock': {
                     button.addEventListener('click', () => {
                         capsLock();
-                        Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                        this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
                     break;
@@ -193,13 +191,13 @@ const Keyboard = {
                 default: {     
                    if (isEn === true) {
                         button.addEventListener('click', () => {
-                            Keyboard.elements.text.push(key[2]);
-                            Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                            this.text.push(key[2]);
+                            this.textarea.value = this.text.join(''); 
                         });
                     } else {
                         button.addEventListener('click', () => {
-                            Keyboard.elements.text.push(key[1]);
-                            Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+                            this.text.push(key[1]);
+                            this.textarea.value = this.text.join(''); 
                         });
                     }     
                 }
@@ -215,9 +213,10 @@ const Keyboard = {
        
         return fragment;
 
-    },
-   
+    }
 }
+
+const keyboard = new Keyboard();
 
 document.onkeydown = (event) => {
 
@@ -227,7 +226,7 @@ document.onkeydown = (event) => {
         event.keyCode >= 186 &&  event.keyCode <= 192 ||
         event.keyCode >= 219 &&  event.keyCode <= 222 ||
         event.keyCode === 226) {
-            Keyboard.elements.text.push(event.key); 
+            keyboard.text.push(event.key); 
     } else {
             switch (event.keyCode) {
                 case  8: {
@@ -264,7 +263,7 @@ document.onkeydown = (event) => {
             }
     }
 
-    Keyboard.elements.textarea.value = Keyboard.elements.text.join(''); 
+    keyboard.textarea.value = keyboard.text.join(''); 
         
         keyArr.forEach((element, index) => {
             if (event.code === element[0]) {
@@ -281,24 +280,24 @@ document.onkeydown = (event) => {
     }     
     
 backspace = () => {
-    Keyboard.elements.text.pop();
+    keyboard.text.pop();
 }
 
 tab = () => {
-    Keyboard.elements.text.push('    ');
+    keyboard.text.push('    ');
 }
 
 enter = () => {
-    Keyboard.elements.text.push('\ \n');
+    keyboard.text.push('\ \n');
     
 }
 
 del = () => {
-    Keyboard.elements.text.shift();
+    keyboard.text.shift();
 }
 
 space = () => {
-    Keyboard.elements.text.push(' ');
+    keyboard.text.push(' ');
 }
 
 capsLock = () => {
@@ -362,7 +361,7 @@ lang = () => {
 
 
 window.addEventListener("DOMContentLoaded", function () {
-    Keyboard.createKeyboard();
+    keyboard.createKeyboard();
 });
 
 
