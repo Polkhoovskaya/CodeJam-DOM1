@@ -80,25 +80,22 @@ const Keyboard = {
         keys: [],
         text: []
     },
-    
 
-    createKeyboard() {
-
-        //Create textarea
+    createTextArea() {
         this.elements.textarea = document.createElement('textarea');
         this.elements.textarea.classList.add('textarea');
         this.elements.textarea.innerHTML = this.elements.text.join('');
-
-        //Create keyboard_wrapper
+    },
+    createKeyboardWrapper() {
         this.elements.keyboard_wrapper = document.createElement('div');
-        this.elements.keyboard_wrapper.classList.add('keyboard_wrapper');      
-        
-        //Create keysContainer
+        this.elements.keyboard_wrapper.classList.add('keyboard_wrapper');    
+    },
+    createKeysContainer() {
         this.elements.keysContainer = document.createElement('div');
         this.elements.keysContainer.classList.add('keyboard__keys');
         this.elements.keysContainer.appendChild(this.createButtons());
-
-        //Add to DOM
+    },
+    addToDOM() {
         let main = document.createElement('main');
         main.classList.add('main');
 
@@ -107,8 +104,14 @@ const Keyboard = {
         main.appendChild(this.elements.keyboard_wrapper);
 
         document.body.appendChild(main);
-
     },
+    createKeyboard() {
+        this.createTextArea();
+        this.createKeyboardWrapper();
+        this.createKeysContainer();
+        this.addToDOM();
+    },
+    
     createButtons() {
         const fragment = document.createDocumentFragment();
 
