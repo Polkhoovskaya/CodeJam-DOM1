@@ -71,8 +71,91 @@ let pressed = false;
 let isEn = false;
 let prevButtonClick;
 
-class Keyboard {
+class ButtonEvents {
+    backspace = () => {
+        keyboard.text.pop();
+    }
+    
+    tab = () => {
+        keyboard.text.push('    ');
+    }
+    
+    enter = () => {
+        keyboard.text.push('\ \n');
+        
+    }
+    
+    del = () => {
+        keyboard.text.shift();
+    }
+    
+    space = () => {
+        keyboard.text.push(' ');
+    }
+    
+    capsLock = () => {
+    
+        pressed = (!pressed) ? true : false;
+    
+        if (pressed) {
+            keyArr.forEach((element, index) => {
+    
+                const mark = ["Backspace", "Del", "Enter", "Tab", "CapsLock", "Shift", "Ctrl", "Win", "Alt", "Space"].indexOf(element[1]) !== -1;
+    
+                if (element[1] ==='CapsLock') {
+                    document.getElementsByClassName('keyboard__key')[index].classList.add('keyboard__key3');
+                }
+    
+                 if (!mark) {
+                    document.getElementsByClassName('keyboard__key')[index].classList.add('toUppercase');
+                }       
+            });   
+    
+        } else {
+            keyArr.forEach((element, index) => {
+    
+                if (element[1] ==='CapsLock') {
+                    document.getElementsByClassName('keyboard__key')[index].classList.remove('keyboard__key3');
+                }
+    
+                document.getElementsByClassName('keyboard__key')[index].classList.remove('toUppercase');
+             });
+        }   
+    }
+    lang = () => {
+        isEn = !isEn;
+
+        if (isEn && (prevButtonClick === 'ShiftLeft' || prevButtonClick === 'ControlLeft')) {
+            keyArr.forEach((element, index) => {
+                if(element[4] && element[4] !== ''){
+                    document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[2]}`;
+                } else {
+                    document.getElementsByClassName('keyboard__key')[index].innerHTML = element[2];
+                }
+                if(element[3] && element[3] !== ''){
+                    document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
+                }
+            });
+        } else if (prevButtonClick === 'ShiftLeft' || prevButtonClick === 'ControlLeft') {
+            keyArr.forEach((element, index) => {
+                if(element[4] && element[4] !== ''){
+                    document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[1]}`;
+                } else {
+                    document.getElementsByClassName('keyboard__key')[index].innerHTML = element[1];
+                }
+                if(element[3] && element[3] !== ''){
+                    document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
+                }
+            });
+        }
+    }
+    
+}
+
+
+class Keyboard extends ButtonEvents {
     constructor() {
+        super();
         this.textarea = null;
         this.keyboard_wrapper = null;
         this.keysContainer = null;
@@ -92,7 +175,7 @@ class Keyboard {
     _createKeysContainer() {
         this.keysContainer = document.createElement('div');
         this.keysContainer.classList.add('keyboard__keys');
-        this.keysContainer.appendChild(this.createButtons());
+        this.keysContainer.appendChild(this._createButtons());
     }
     _addToDOM() {
         let main = document.createElement('main');
@@ -110,7 +193,7 @@ class Keyboard {
         this._createKeysContainer();
         this._addToDOM();
     }
-    createButtons() {
+    _createButtons() {
         let fragment = document.createDocumentFragment();
 
         keyArr.forEach (key => {
@@ -133,7 +216,7 @@ class Keyboard {
             switch (key[0]) {
                 case 'Backspace': {
                     button.addEventListener('click', () => {
-                        backspace();
+                        this.backspace();
                         this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
@@ -141,7 +224,7 @@ class Keyboard {
                 }
                 case 'Delete': {
                     button.addEventListener('click', () => {
-                        del();
+                        this.del();
                         this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
@@ -149,7 +232,7 @@ class Keyboard {
                 }
                 case 'Tab': {
                     button.addEventListener('click', () => {
-                        tab();
+                        this.tab();
                         this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
@@ -157,7 +240,7 @@ class Keyboard {
                 }
                 case 'Space': {
                     button.addEventListener('click', () => {
-                        space();
+                        this.space();
                          this.textarea.value = this.text.join(''); 
                      });
                      button.classList.add('keyboard__key_space');
@@ -165,7 +248,7 @@ class Keyboard {
                 }
                 case 'Enter': {
                     button.addEventListener('click', () => {
-                        enter();
+                        this.enter();
                         this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
@@ -173,7 +256,7 @@ class Keyboard {
                 }
                 case 'CapsLock': {
                     button.addEventListener('click', () => {
-                        capsLock();
+                        this.capsLock();
                         this.textarea.value = this.text.join(''); 
                     });
                     button.classList.add('keyboard__key_long');
@@ -230,31 +313,31 @@ document.onkeydown = (event) => {
     } else {
             switch (event.keyCode) {
                 case  8: {
-                    backspace();
+                    keyboard.backspace();
                     break;
                 }
                 case 9: {
-                    tab();
+                    keyboard.tab();
                     break;
                 }
                 case 46: {
-                    del();
+                    keyboard.del();
                     break;
                 } 
                 case 13: {
-                    enter();
+                    keyboard.enter();
                     break;
                 }
                 case 32: {
-                    space();
+                    keyboard.space();
                     break;
                 } 
                 case 20: {
-                    capsLock();
+                    keyboard.capsLock();
                     break;
                 }
                 case 18: {
-                    lang();
+                    keyboard.lang();
                     break;
                 } 
                 default: {
@@ -278,86 +361,6 @@ document.onkeydown = (event) => {
         });
        prevButtonClick = event.code;
     }     
-    
-backspace = () => {
-    keyboard.text.pop();
-}
-
-tab = () => {
-    keyboard.text.push('    ');
-}
-
-enter = () => {
-    keyboard.text.push('\ \n');
-    
-}
-
-del = () => {
-    keyboard.text.shift();
-}
-
-space = () => {
-    keyboard.text.push(' ');
-}
-
-capsLock = () => {
-
-    pressed = (!pressed) ? true : false;
-
-    if (pressed) {
-        keyArr.forEach((element, index) => {
-
-            const mark = ["Backspace", "Del", "Enter", "Tab", "CapsLock", "Shift", "Ctrl", "Win", "Alt", "Space"].indexOf(element[1]) !== -1;
-
-            if (element[1] ==='CapsLock') {
-                document.getElementsByClassName('keyboard__key')[index].classList.add('keyboard__key3');
-            }
-
-             if (!mark) {
-                document.getElementsByClassName('keyboard__key')[index].classList.add('toUppercase');
-            }       
-        });   
-
-    } else {
-        keyArr.forEach((element, index) => {
-
-            if (element[1] ==='CapsLock') {
-                document.getElementsByClassName('keyboard__key')[index].classList.remove('keyboard__key3');
-            }
-
-            document.getElementsByClassName('keyboard__key')[index].classList.remove('toUppercase');
-         });
-    }   
-}
-
-lang = () => {
-    isEn = !isEn;
-
-    if (isEn && (prevButtonClick === 'ShiftLeft' || prevButtonClick === 'ControlLeft')) {
-        keyArr.forEach((element, index) => {
-            if(element[4] && element[4] !== ''){
-                document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[2]}`;
-            } else {
-                document.getElementsByClassName('keyboard__key')[index].innerHTML = element[2];
-            }
-            if(element[3] && element[3] !== ''){
-                document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
-            }
-        });
-    } else if (prevButtonClick === 'ShiftLeft' || prevButtonClick === 'ControlLeft') {
-        keyArr.forEach((element, index) => {
-            if(element[4] && element[4] !== ''){
-                document.getElementsByClassName('keyboard__key')[index].innerHTML = `<p class="additionalSubols_en">${element[4]}</p> ${element[1]}`;
-            } else {
-                document.getElementsByClassName('keyboard__key')[index].innerHTML = element[1];
-            }
-            if(element[3] && element[3] !== ''){
-                document.getElementsByClassName('keyboard__key')[index].innerHTML =  document.getElementsByClassName('keyboard__key')[index].innerHTML + `<p class="additionalSubols_ru">${element[3]}</p>`;
-            }
-        });
-    }
-}
-
 
 
 window.addEventListener("DOMContentLoaded", function () {
